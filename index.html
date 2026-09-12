@@ -998,6 +998,7 @@ function renderCallerLanding(pk){
       <div style="font-size:13px;font-weight:600;color:#7F77DD">${c2cIn}</div>
     </div>
     <button id="enter-app-btn" class="btn btn-blue">Apri la lista →</button>
+    <button id="close-app-btn" class="btn btn-ghost" style="margin-top:8px">Chiudi app</button>
     <div style="font-size:10px;color:var(--t3);text-align:center;margin-top:6px">Accesso esclusivo · solo per ${pname}</div>
   </div></div>`;
 }
@@ -1028,6 +1029,7 @@ function renderCallerLandingITA(){
       <div><div style="font-size:12px;color:var(--t2)">Riassegna al partner principale</div><div style="font-size:10px;color:var(--t3)">Campo obbligatorio prima di chiudere</div></div>
     </div>
     <button id="enter-app-btn" class="btn btn-blue" style="background:#7F77DD">Apri la lista triage →</button>
+    <button id="close-app-btn" class="btn btn-ghost" style="margin-top:8px">Chiudi app</button>
     <div style="font-size:10px;color:var(--t3);text-align:center;margin-top:6px">Accesso esclusivo · solo per Monica</div>
   </div></div>`;
 }
@@ -1035,6 +1037,17 @@ function backToLogin(){S.user=null;S.dataStatus='idle';S.callerView='landing';S.
 function bindCallerLanding(pk){
   const btn=document.getElementById('enter-app-btn');
   if(btn)btn.onclick=()=>{S.callerView='app';render();};
+  const cb=document.getElementById('close-app-btn');
+  if(cb)cb.onclick=()=>{
+    window.close();
+    setTimeout(()=>{
+      if(document.getElementById('close-app-btn')){
+        cb.textContent='Puoi chiudere questa pagina dal tuo browser';
+        cb.disabled=true;
+        cb.style.opacity='.65';cb.style.cursor='default';
+      }
+    },300);
+  };
 }
 function renderCaller(){
   const pk=S.user;
