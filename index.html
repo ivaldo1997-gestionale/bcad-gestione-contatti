@@ -157,6 +157,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .esito-opt.sel-nr{background:var(--card2)!important;color:var(--t2)!important;border-color:var(--bd2)!important;font-weight:600!important}
 .esito-opt.sel-chiuso{background:#FAECE7!important;color:#993C1D!important;border-color:#D85A30!important}
 #close-call-btn:not(:disabled){opacity:1!important}
+@keyframes bcadspin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -170,151 +171,131 @@ const ADMIN_PIN='2026';
 const PTINT={v:'rgba(24,95,165,.06)',h:'rgba(163,57,94,.06)',s:'rgba(186,117,23,.06)',eu:'rgba(216,90,48,.06)',tf:'rgba(99,153,34,.06)',in:'rgba(29,158,117,.06)'};
 const HASHROLES={vaillant:'v',helty:'h',sunerg:'s',eurotherm:'eu',thermofloc:'tf',internorm:'in',ita:'ita'};
 
-const CONTACTS=[
-{id:1,d:'4',n:'Fiorello',c:'Fiorello',az:'Ing. Fiorello',r:'Progettista',m:'fiorello@studio.it',t:'3400858601',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:2,d:'4',n:'Juan Antonio',c:'Giagnacovo',az:'Studio JAG',r:'',m:'juan.antonio.giagnacovo@inwind.it',t:'3396293082',i:{v:0,h:1,s:0,eu:0,tf:0,in:1},nota:'Richiesta documentazione tecnica'},
-{id:3,d:'4',n:'Chiara',c:'Violi',az:'Studio Violi',r:'Progettista',m:'chiara@studiovioli.it',t:'3286632578',i:{v:1,h:0,s:0,eu:0,tf:1,in:1},nota:''},
-{id:4,d:'4',n:'Federico',c:'Emmolo',az:'Safal Snc',r:'Costruttore',m:'Safalsnc@gmail.com',t:'3351418702',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:5,d:'4',n:'Alfonso',c:'Belardo',az:'Gabetti',r:'',m:'belardorealestate@icloud.com',t:'3333936508',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:6,d:'4',n:'Mario',c:'Arcidiacono',az:'ArchiGEO3',r:'Progettista',m:'m.arcidiacono@archigeo3.eu',t:'3924534717',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:7,d:'4',n:'Giovanni',c:'Celli',az:'Interior Designer',r:'Altro',m:'info@giovannicelli.it',t:'3284106921',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Richiesta documentazione tecnica'},
-{id:8,d:'4',n:'Paolo',c:'Cucinotta',az:'Libero Professionista',r:'Progettista',m:'cupeng@tiscali.it',t:'3289248921',i:{v:0,h:1,s:0,eu:0,tf:0,in:0},nota:''},
-{id:9,d:'4',n:'Diego',c:'Pinna',az:'Privato',r:'',m:'diego.pinna@gmail.com',t:'3927603403',i:{v:0,h:1,s:0,eu:0,tf:0,in:0},nota:'Richiesta preventivo per progetto specifico'},
-{id:10,d:'4',n:'Franco',c:'Puledda',az:'Franco Puledda Architetto',r:'Progettista',m:'fpair.12@gmail.com',t:'34504115',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:''},
-{id:11,d:'4',n:'Paolo',c:'Boi',az:'Studio Boi',r:'Progettista',m:'boivigano@hotmail.com',t:'3277385948',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Richiesta documentazione tecnica'},
-{id:12,d:'4',n:'Anna',c:'Sammarone',az:'In Lire-Bexb',r:'Altro',m:'roma3@bexb.it',t:'3333599231',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:''},
-{id:13,d:'4',n:'Daniele',c:'Bertini',az:'Ing. Daniele Bertini',r:'Progettista',m:'ing.daniele.bertini@gmail.com',t:'3387894753',i:{v:1,h:1,s:0,eu:0,tf:0,in:1},nota:''},
-{id:14,d:'4',n:'Sergio',c:'Abbrugiati',az:'Honeywell',r:'Progettista',m:'sergio.abbrugiati@gmail.com',t:'3479550251',i:{v:1,h:0,s:0,eu:0,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:15,d:'4',n:'Enrico',c:'Fulfaro',az:'Architetto',r:'Progettista',m:'arch.fulfaro@gmail.com',t:'3384935193',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Richiesta documentazione tecnica'},
-{id:16,d:'4',n:'Filippo',c:'Frison',az:'Frison',r:'Progettista',m:'frison.filippo@gmail.com',t:'3421619911',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Richiesta documentazione tecnica'},
-{id:17,d:'4',n:'Tiziana',c:'Boi',az:'Tiziana Boi',r:'Altro',m:'tizianaboi843@gmail.com',t:'3476595640',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:'Consulenza tecnica on-site'},
-{id:18,d:'4',n:'Massimo',c:'Minasi',az:'Studio Minasi',r:'Progettista',m:'m.minasi@studiominasi.eu',t:'3392919168',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:19,d:'4',n:'Gennaro Paolo',c:'Matronola',az:'Studio Di Ingegneria',r:'Progettista',m:'ing.matronola@tiscali.it',t:'3394422872',i:{v:0,h:1,s:0,eu:0,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:20,d:'4',n:'Andrea',c:'Landi',az:'Riabita Srl',r:'',m:'andrea.landi@riabitasrl.it',t:'3351364681',i:{v:0,h:0,s:1,eu:0,tf:0,in:0},nota:'Richiesta preventivo per progetto specifico'},
-{id:21,d:'4',n:'Alessandro',c:'Marchese',az:'M2ECOGREEN',r:'Costruttore',m:'info@m2ecogreen.it',t:'3518863197',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Richiesta documentazione tecnica'},
-{id:22,d:'4',n:'Massimo',c:'Melmeluzzi',az:'Rai',r:'Committente',m:'massimo.melmeluzzi@rai.it',t:'3357597657',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:'Valutazione retrofit / riqualificazione energetica'},
-{id:23,d:'5',n:'Angel',c:'Hernandez Zurbano',az:'Ingenius2000',r:'',m:'anhezu@gmail.com',t:'3511825391',i:{v:1,h:1,s:1,eu:0,tf:0,in:0},nota:''},
-{id:24,d:'5',n:'Andrea',c:'Pluchino',az:'Ingegnere',r:'',m:'andrea_pluchino@yahoo.it',t:'3476402389',i:{v:0,h:1,s:1,eu:0,tf:0,in:1},nota:'Richiesta preventivo per progetto specifico'},
-{id:25,d:'5',n:'Carmine',c:'Gigante',az:'Gigaone Srl',r:'Altro',m:'gigaone.roma@gmail.com',t:'3288343664',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Progetto urgente da discutere'},
-{id:26,d:'5',n:'Giovanni',c:'Lupo',az:'Studio Giovanni Lupo',r:'',m:'giovannilupo1973@gmail.com',t:'3880661938',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:27,d:'5',n:'Stefano',c:'Saccone',az:'IABW',r:'Progettista',m:'s.saccone@iabw.it',t:'3382442772',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:28,d:'5',n:'Lorella',c:'Giorgi',az:'Privato',r:'Committente',m:'lorella.giorgi@gmail.com',t:'3355368473',i:{v:1,h:1,s:0,eu:0,tf:1,in:1},nota:'Valutazione retrofit / riqualificazione energetica'},
-{id:29,d:'5',n:'Stefano',c:'Panci',az:'Studio Ingegneri Associati',r:'Altro',m:'info@studio.panci',t:'067824353',i:{v:1,h:0,s:1,eu:0,tf:0,in:0},nota:''},
-{id:30,d:'5',n:'Mario',c:'Archilli',az:'Studio Archilli',r:'',m:'mario.archilli@gmail.com',t:'',i:{v:0,h:0,s:1,eu:0,tf:0,in:0},nota:'',warn:'tel'},
-{id:31,d:'5',n:'Trina',c:'Caravella',az:'Privato',r:'Committente',m:'alfredo.muoio@libero.it',t:'3381128964',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:32,d:'5',n:'Antonella',c:'Anghelone',az:'Nd',r:'Altro',m:'antonella.anghelone@googlemail.com',t:'3475799810',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:33,d:'5',n:'Alessandro',c:'Milano',az:'Gammi Srl',r:'Imprenditore',m:'alessandromilano82@gmail.com',t:'3397999634',i:{v:0,h:0,s:0,eu:1,tf:1,in:0},nota:''},
-{id:34,d:'5',n:'Bruno',c:'Anav',az:'Ing. Anav',r:'Progettista',m:'segreteria@anavengineering.it',t:'3356760834',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:35,d:'5',n:'Roberto',c:'Mambrin',az:'Privato',r:'',m:'mambrinr@gmail.com',t:'3388798190',i:{v:0,h:0,s:1,eu:0,tf:0,in:0},nota:'Richiesta preventivo per progetto specifico'},
-{id:36,d:'5',n:'Vincenzo',c:'Auriemma',az:'Global Technique',r:'Imprenditore',m:'info@globaltechnique.it',t:'3355763489',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Richiesta documentazione tecnica'},
-{id:37,d:'5',n:'Marco',c:'Aloisantoni',az:'Edil Giomar',r:'Imprenditore',m:'edilgiomarsnc@gmail.com',t:'',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'',warn:'tel'},
-{id:38,d:'5',n:'Antonio',c:'Peccia',az:'Getec Italia Spa',r:'Altro',m:'antonio@peccia.eu',t:'3489360385',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:39,d:'5',n:'Vittoria',c:'Ruggiero',az:'Ii',r:'',m:'vic.leon81@gmail.com',t:'3289183719',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:40,d:'5',n:'Andrea',c:'Marchetti',az:'Elettrospazio TST Srl',r:'Installatore',m:'amministrazione@elettrotst.it',t:'3357269625',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:41,d:'5',n:'Roberto',c:'Bencini',az:'GA.I.A. Srl',r:'Committente',m:'gaia.srl.1999@gmail.com',t:'330207443',i:{v:1,h:1,s:1,eu:0,tf:0,in:0},nota:'Valutazione retrofit / riqualificazione energetica'},
-{id:42,d:'5',n:'Alessandro',c:'Scarfagna',az:'Studio Tecnico Fam',r:'Progettista',m:'studiotecnicofam@gmail.com',t:'3897611193',i:{v:0,h:0,s:1,eu:0,tf:0,in:0},nota:''},
-{id:43,d:'5',n:'Leonardo',c:'Amerise',az:'Architetti AD',r:'Progettista',m:'architetti.ad@gmail.com',t:'3409725028',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:''},
-{id:44,d:'5',n:'Luciano',c:'Colangelo',az:'Studio Tecnico',r:'Progettista',m:'bittarm@hotmail.it',t:'3474011046',i:{v:0,h:1,s:0,eu:0,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:45,d:'5',n:'Maria Clelia',c:'Cortellini',az:'CORTELLINI INGEGNERIA',r:'',m:'mc@cortellini-ingegneria.com',t:'3409283499',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Richiesta documentazione tecnica'},
-{id:46,d:'5',n:'Pietro',c:'Di Giovanni',az:'Studio Tecnico',r:'Progettista',m:'pietro.digiovanni@libero.it',t:'3483314957',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:''},
-{id:47,d:'5',n:'Gianfranco',c:'Portello',az:'Architetto',r:'',m:'gfportello@gmail.com',t:'3355816466',i:{v:1,h:0,s:0,eu:0,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:48,d:'5',n:'Claudia',c:'Cusenza',az:'X',r:'',m:'claudia.cusenza@live.it',t:'3928482651',i:{v:1,h:0,s:1,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:49,d:'5',n:'Daniele',c:'Sangiorgio',az:'Ntcdesignr748',r:'',m:'ntcdesignnt748@yahoo.it',t:'3476172756',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:50,d:'5',n:'Angelo',c:'Mattiuzzi',az:'Tdarch Studio Architettura',r:'Progettista',m:'apm@getnet.it',t:'337721138',i:{v:0,h:0,s:1,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:51,d:'5',n:'Domenico',c:'Vedovato',az:'Libero Professionista',r:'Progettista',m:'domenico.vedovato@virgilio.it',t:'3395690152',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:''},
-{id:52,d:'5',n:'Nicola',c:'Natali',az:'Privato',r:'Altro',m:'nicola.natali72@libero.it',t:'3288028008',i:{v:0,h:0,s:1,eu:0,tf:0,in:0},nota:'Richiesta preventivo impianto fotovoltaico 6kw + batteria 10kw'},
-{id:53,d:'5',n:'Anna Maria',c:'Todrani',az:'2100 Ceramiche Srl',r:'',m:'duemilacentoceramichesrl@gmail.com',t:'3202966346',i:{v:0,h:1,s:0,eu:0,tf:0,in:0},nota:''},
-{id:54,d:'5',n:'Livio',c:'Rollo',az:'Rdarredamenti',r:'Imprenditore',m:'rdarredamenti@libero.it',t:'337989689',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:'Richiesta documentazione tecnica'},
-{id:55,d:'5',n:'Enzo',c:'Bonanno',az:'Bonanno Enzo',r:'Altro',m:'enzo.bonanno31@gmail.com',t:'3801930451',i:{v:1,h:0,s:0,eu:0,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:56,d:'6',n:'Carola',c:'Martella',az:'Privato',r:'',m:'carolamart23@gmail.com',t:'3333299918',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:'Richiesta preventivo per progetto specifico'},
-{id:57,d:'6',n:'Renzo',c:'Ullucci',az:'Architetto',r:'',m:'renzo.ullucci@gmail.com',t:'3293005406',i:{v:1,h:0,s:1,eu:0,tf:0,in:0},nota:''},
-{id:58,d:'6',n:'Antonio',c:'Sirignano',az:'Eva Consulting Srl',r:'Imprenditore',m:'sirignano.antonio@gmail.com',t:'3357314568',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:'Richiesta documentazione tecnica'},
-{id:59,d:'6',n:'Antonino',c:'Noto',az:'Studio Tecnico Noto',r:'Progettista',m:'geometranoto@tiscali.it',t:'3397850551',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:60,d:'6',n:'Francesco',c:'Peri',az:'Architetto',r:'',m:'francescoperi@virgilio.it',t:'3497067512',i:{v:1,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:61,d:'6',n:'Savino',c:'Sarnella',az:'Gestimmobili Srl',r:'',m:'savino.sar@gmail.com',t:'3347589307',i:{v:1,h:0,s:1,eu:1,tf:1,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:62,d:'6',n:'Mattia',c:'Maffeo',az:'MGM Edil',r:'Imprenditore',m:'mgmsnc91@gmail.com',t:'3276945181',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Conoscenza come impresa'},
-{id:63,d:'6',n:'Aurelio',c:'Taurisano',az:'Atisa SPA',r:'Altro',m:'aurelio.taurisano@atisa.it',t:'3492337528',i:{v:0,h:0,s:0,eu:0,tf:1,in:0},nota:'Progetto urgente da discutere'},
-{id:64,d:'6',n:'Edoardo',c:'Dolci',az:'Edoardo Dolci',r:'Progettista',m:'edo992@hotmail.it',t:'3407603937',i:{v:1,h:0,s:0,eu:1,tf:1,in:0},nota:'Richiesta documentazione tecnica'},
-{id:65,d:'6',n:'Umberto',c:'Chianese',az:'Ing. Chianese Umberto',r:'Progettista',m:'ing.umbertochianese@gmail.com',t:'3392926427',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:66,d:'6',n:'Roberta',c:'Coni',az:'Gruppo Coni',r:'Imprenditore',m:'saveriodepaolis@gmail.com',t:'3383364656',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:'Richiesta documentazione tecnica'},
-{id:67,d:'6',n:'Luigi',c:'Federici',az:'Federici',r:'Altro',m:'setteva23@gmail.com',t:'3406703584',i:{v:0,h:0,s:1,eu:0,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:68,d:'6',n:'Claudio',c:'Cutelle',az:'Studio Tecnico Di Progettazione',r:'Progettista',m:'claudiocutelle@tiscali.it',t:'3284649405',i:{v:0,h:1,s:0,eu:0,tf:0,in:1},nota:'Richiesta preventivo per progetto specifico'},
-{id:69,d:'6',n:'Mauro',c:'Liverani',az:'Mauro Liverani',r:'',m:'rag.ml@libero.it',t:'3356161165',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:70,d:'6',n:'Alberto',c:'Mezzetti',az:'Studio Mezzetti',r:'Imprenditore',m:'albertomeex@gmail.com',t:'3334490039',i:{v:0,h:0,s:0,eu:0,tf:0,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:71,d:'6',n:'Giorgio',c:'Della Rocca',az:'D R S Team Italia Srl',r:'Installatore',m:'gdrroma@gmail.com',t:'3898460460',i:{v:0,h:0,s:0,eu:1,tf:0,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:72,d:'6',n:'Dora',c:'La Giglia',az:'Studio Dora Giglia',r:'Progettista',m:'arch.doralagiglia@gmail.com',t:'3453787013',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:''},
-{id:73,d:'6',n:'Carlo',c:'Forti',az:'Sabo District Srl',r:'Altro',m:'carlo.forti@gmail.com',t:'3351297166',i:{v:1,h:0,s:0,eu:0,tf:0,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:74,d:'6',n:'Ida',c:'De Rossi',az:'Ida De Rossi',r:'Progettista',m:'idade.rossi@gmail.com',t:'3476619471',i:{v:1,h:0,s:1,eu:1,tf:1,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:75,d:'6',n:'Fabio',c:'Li Prizzi',az:'Privato',r:'Direttore lavori',m:'fabioliprizzi@gmail.com',t:'3201553331',i:{v:1,h:0,s:0,eu:0,tf:0,in:0},nota:'Valutazione retrofit / riqualificazione energetica'},
-{id:76,d:'6',n:'Marizia',c:'Di Sipio',az:'Studio Di Architettura',r:'Progettista',m:'archmarizia@hotmail.com',t:'3387509660',i:{v:0,h:0,s:0,eu:1,tf:1,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:77,d:'6',n:'Miriana',c:'Ercolino',az:'Miriana Ercolino',r:'Progettista',m:'mirianaercolino93@gmail.com',t:'3886345466',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:78,d:'6',n:'Daniele',c:'Bianconi',az:'Privato',r:'',m:'dr.bianconi@gmail.com',t:'3201551459',i:{v:1,h:1,s:1,eu:1,tf:0,in:0},nota:'Valutazione retrofit / riqualificazione energetica'},
-{id:79,d:'6',n:'Roberto',c:'Scarlino',az:'Privato',r:'Altro',m:'roberto.scarlino@gmail.com',t:'3355644972',i:{v:0,h:1,s:0,eu:0,tf:0,in:0},nota:'Informazioni sui sistemi Helty di ventilazione'},
-{id:80,d:'6',n:'Tommaso',c:'Allegra',az:'Tommaso Allegra',r:'Progettista',m:'architettoallegra@gmail.com',t:'3348690494',i:{v:1,h:1,s:1,eu:1,tf:1,in:1},nota:'Ricontatto per approfondimento tecnico'},
-{id:81,d:'6',n:'Simone',c:'Pasquali',az:'Structura Srl',r:'Progettista',m:'s.pasquali@structura.it',t:'3283899242',i:{v:0,h:0,s:0,eu:1,tf:0,in:0},nota:'Ricontatto per approfondimento tecnico'},
-{id:82,d:'6',n:'Antonio',c:'Masiello',az:'Privato',r:'Altro',m:'mapa94500@gmail.com',t:'3280372979',i:{v:0,h:1,s:0,eu:0,tf:1,in:0},nota:'Richiesta documentazione tecnica'},
-{id:83,d:'6',n:'Valentino',c:'Beccarini',az:'Maria Sanda Catavei',r:'Installatore',m:'blackglass@virgilio.it',t:'3477794774',i:{v:1,h:0,s:1,eu:0,tf:0,in:0},nota:'Richiesta documentazione tecnica'}
-];
 
 // ── STATE ──────────────────────────────────────────────
-let S={user:null,asgn:{},results:{},msgs:[],extra:[],modal:null,adminFilter:'unassigned',callerTab:'contacts',activeId:null,callRatings:{},callConcrete:false,callDoc:'',callNote:'',callEsito:'',callerFirstTime:false,msgsSeen:0,edits:{},signals:{},mixed:{},signalModal:null,campaigns:{},activeCampaign:'bcad2026',adminView:'campaigns',callerView:'landing',fromLogin:false,c2cAsked:'',callC2CRequired:true};
+let S={user:null,asgn:{},results:{},msgs:[],contacts:[],modal:null,adminFilter:'unassigned',callerTab:'contacts',activeId:null,callRatings:{},callConcrete:false,callDoc:'',callNote:'',callEsito:'',callerFirstTime:false,msgsSeen:0,signals:{},mixed:{},signalModal:null,campaigns:{},activeCampaign:'bcad2026',adminView:'campaigns',callerView:'landing',fromLogin:false,c2cAsked:'',callC2CRequired:true,adminPin:'',teamStats:[],dataStatus:'idle',dataError:''};
 
-// ── STORAGE ──────────────────────────────────────────────
-// Global keys (not campaign-specific)
-const GLOBAL_KEYS=['user','campaigns','activeCampaign'];
+// ── STORAGE (solo preferenze locali del dispositivo — i dati veri vivono nel foglio Google) ──
+const GLOBAL_KEYS=['user','activeCampaign'];
 function isGlobal(k){return GLOBAL_KEYS.includes(k)||k.startsWith('msgsSeen_')||k.startsWith('seen_');}
 function lsave(k,v){try{const fk='bcad_'+(isGlobal(k)?k:(S.activeCampaign||'bcad2026')+'_'+k);localStorage.setItem(fk,JSON.stringify(v))}catch(e){}}
 function lload(k,def){try{const fk='bcad_'+(isGlobal(k)?k:(S.activeCampaign||'bcad2026')+'_'+k);const v=localStorage.getItem(fk);return v?JSON.parse(v):def}catch(e){return def}}
 
 function loadState(){
   S.user=lload('user',null);
-  // Global
-  S.campaigns=lload('campaigns',{bcad2026:{id:'bcad2026',name:'B-CAD 2026',date:'4–6 set 2026',venue:'La Nuvola, Roma',created:'2026-09-04'}});
   S.activeCampaign=lload('activeCampaign','bcad2026');
-  if(!S.campaigns[S.activeCampaign])S.activeCampaign='bcad2026';
-  const savedAsgn=lload('asgn',null);
-  S.asgn=savedAsgn!==null?savedAsgn:{"3": "v", "14": "v", "23": "v", "41": "v", "47": "v", "55": "v", "60": "v", "73": "v", "74": "v", "75": "v", "78": "v", "57": "v", "7": "eu", "11": "eu", "16": "eu", "18": "eu", "21": "eu", "26": "eu", "27": "eu", "2": "h", "8": "h", "9": "h", "19": "h", "44": "h", "20": "s", "35": "s", "42": "s", "52": "s", "67": "s", "5": "tf", "22": "tf", "31": "tf", "32": "tf", "46": "tf", "4": "in", "12": "in", "17": "in", "54": "in", "56": "in", "25": "ita", "36": "ita", "6": "ita", "43": "ita"};
-  // Migrate old storage keys to campaign format
-  ['asgn','extra','signals','edits','msgs'].forEach(k=>{
-    const oldKey='bcad_'+k;
-    const newKey='bcad_bcad2026_'+k;
-    if(localStorage.getItem(oldKey)&&!localStorage.getItem(newKey)){
-      localStorage.setItem(newKey,localStorage.getItem(oldKey));
-      localStorage.removeItem(oldKey);
-    }
-  });
-  // Migrate results
-  const oldResults=localStorage.getItem('bcad_results');
-  if(oldResults&&!localStorage.getItem('bcad_bcad2026_results')){
-    localStorage.setItem('bcad_bcad2026_results',oldResults);
-    localStorage.removeItem('bcad_results');
-  }
-  const rawResults=lload('results',{});
-  // Migrate old single-key format to per-partner keys
-  S.results={};
-  Object.keys(rawResults).forEach(k=>{
-    const r=rawResults[k];
-    if(k.includes('_')){S.results[k]=r;}// already new format
-    else if(r&&r.partner){S.results[k+'_'+r.partner]=r;}// migrate old format
-    else{S.results[k]=r;}// keep as is
-  });
-  S.msgs=lload('msgs',[]);
-  S.extra=lload('extra',[]);
   S.msgsSeen=lload('msgsSeen_'+(S.user||''),0);
-  S.edits=lload('edits',{});
-  S.signals=lload('signals',{});
-  S.mixed=lload('mixed',{});
 }
-function saveAsgn(){lsave('asgn',S.asgn)}
-function saveResults(){lsave('results',S.results)}
-function saveEdits(){lsave('edits',S.edits)}
-function saveSignals(){lsave('signals',S.signals)}
-function saveMixed(){lsave('mixed',S.mixed)}
-function saveMsgs(){lsave('msgs',S.msgs)}
-function saveExtra(){lsave('extra',S.extra)}
-function allContacts(){
-  const base=S.activeCampaign==='bcad2026'?CONTACTS:[];
-  return[...base,...S.extra];
+function allContacts(){return S.contacts||[]}
+
+// ── BACKEND (Google Apps Script condiviso) ──────────────────────────────
+const API_URL='https://script.google.com/macros/s/AKfycby0IW7i2-aoaCQEqYp6jv5kbyHTGzPgjGSKWP1-zFwbRvw8r30wEPFLXN8CI_nmoDom/exec';
+function apiGet(params){
+  const qs=Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k]==null?'':params[k])).join('&');
+  return fetch(API_URL+'?'+qs).then(r=>r.json());
+}
+function apiPost(action,extra){
+  const body=Object.assign({action:action,campaign:S.activeCampaign||'bcad2026'},extra||{});
+  return fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(r=>r.json());
+}
+function truthy_(v){return v===true||v==='TRUE'||v===1||v==='1';}
+function mapContact(row){
+  return{id:Number(row.id),d:row.giorno||'',n:row.nome||'',c:row.cognome||'',az:row.azienda||'',r:row.ruolo||'',
+    m:row.email||'',t:row.telefono||'',
+    i:{v:row.interesse_vaillant?1:0,h:row.interesse_helty?1:0,s:row.interesse_sunerg?1:0,eu:row.interesse_eurotherm?1:0,tf:row.interesse_thermofloc?1:0,in:row.interesse_internorm?1:0},
+    nota:row.nota||'',warn:row.warn||undefined};
+}
+function mapChiamata(row){
+  return{partner:row.partner,
+    ratings:{v:row.rating_vaillant||'',h:row.rating_helty||'',s:row.rating_sunerg||'',eu:row.rating_eurotherm||'',tf:row.rating_thermofloc||'',in:row.rating_internorm||''},
+    concrete:truthy_(row.concreto),doc:row.documento||'',note:row.nota||'',esito:row.esito||'',
+    callbackDate:row.data_richiamata||'',callDate:row.data_chiamata||'',status:'called',
+    reassignedTo:row.riassegnato_a||'',mixed:truthy_(row.misto),
+    mixedPartners:(row.misto_partners||'').split(',').filter(Boolean),mixedReferente:truthy_(row.misto_referente)};
+}
+function applyBootstrapData(data,isAdmin){
+  S.contacts=(data.contatti||[]).map(mapContact);
+  S.results={};
+  (data.chiamate||[]).forEach(r=>{S.results[r.chiave]=mapChiamata(r)});
+  S.signals={};
+  (data.segnalazioni||[]).forEach(s=>{
+    const cid=Number(s.contatto_id);
+    if(!S.signals[cid])S.signals[cid]=[];
+    S.signals[cid].push({from:s.da,to:s.a,note:s.nota||'',date:s.data||'',consent:true,livello:s.livello||''});
+  });
+  S.mixed={};
+  (data.progettiMisti||[]).forEach(m=>{
+    S.mixed[Number(m.contatto_id)]={partners:(m.partners||'').split(',').filter(Boolean),referente:truthy_(m.referente),note:m.nota||'',date:m.data||''};
+  });
+  S.msgs=(data.messaggi||[]).map(m=>({sender:m.autore,text:m.testo,when:m.data,auto:truthy_(m.auto)}));
+  S.asgn={};
+  if(isAdmin){
+    (data.assegnazioni||[]).forEach(a=>{S.asgn[Number(a.contatto_id)]=a.partner});
+    S.campaigns={};
+    (data.campagne||[]).forEach(cp=>{S.campaigns[cp.id]={id:cp.id,name:cp.nome,date:cp.data,venue:cp.venue,created:cp.creato}});
+    if(!S.campaigns[S.activeCampaign])S.activeCampaign='bcad2026';
+  }else{
+    (data.partnerContactIds||[]).forEach(id=>{S.asgn[Number(id)]=data.partner});
+    S.teamStats=data.teamStats||[];
+  }
+}
+function doBootstrap(){
+  const isAdmin=S.user==='admin';
+  const params=isAdmin
+    ?{action:'bootstrapAdmin',pin:S.adminPin||ADMIN_PIN,campaign:S.activeCampaign||'bcad2026'}
+    :{action:'bootstrapPartner',partner:S.user,campaign:S.activeCampaign||'bcad2026'};
+  return apiGet(params).then(data=>{
+    if(data.error)throw new Error(data.error);
+    applyBootstrapData(data,isAdmin);
+  });
+}
+function reloadData(){
+  S.dataStatus='loading';render();
+  doBootstrap().then(()=>{S.dataStatus='ready';render();})
+    .catch(err=>{S.dataStatus='error';S.dataError=(err&&err.message)||String(err);render();});
+}
+function refreshData(){return doBootstrap();}
+function setBusy(msg){
+  let el=document.getElementById('busy-overlay');
+  if(!el){
+    el=document.createElement('div');
+    el.id='busy-overlay';
+    el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;display:flex;align-items:center;justify-content:center';
+    el.innerHTML='<div style="background:var(--card);padding:18px 24px;border-radius:12px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.2)"><div style="width:16px;height:16px;border:2px solid var(--bd);border-top-color:var(--blue);border-radius:50%;animation:bcadspin .7s linear infinite"></div><span id="busy-text"></span></div>';
+    document.body.appendChild(el);
+  }
+  document.getElementById('busy-text').textContent=msg||'Salvataggio…';
+  el.style.display='flex';
+}
+function clearBusy(){const el=document.getElementById('busy-overlay');if(el)el.style.display='none';}
+function renderLoadingScreen(){
+  return'<div class="login"><div class="login-eye">B-CAD 2026</div>'
+    +'<div style="width:30px;height:30px;border:3px solid var(--bd);border-top-color:var(--blue);border-radius:50%;animation:bcadspin .8s linear infinite;margin:18px auto 0"></div>'
+    +'<div style="margin-top:16px;font-size:13px;color:var(--t2)">Caricamento dati…</div></div>';
+}
+function renderErrorScreen(msg){
+  return'<div class="login"><div class="login-eye">B-CAD 2026</div>'
+    +'<div class="login-title" style="font-size:16px;color:#993C1D;margin-top:14px">Errore di connessione</div>'
+    +'<div class="login-sub">'+esc(msg||'Impossibile contattare il server')+'</div>'
+    +'<button class="btn btn-blue" style="max-width:280px;margin-top:16px" onclick="reloadData()">Riprova</button>'
+    +'<button class="btn btn-ghost" style="max-width:280px;margin-top:8px" onclick="S.user=null;S.dataStatus=\'idle\';lsave(\'user\',null);render()">Torna al login</button></div>';
+}
+// Esegue in sequenza una serie di chiamate al backend, poi ricarica i dati e ridisegna.
+// steps: array di funzioni che restituiscono una Promise (una chiamata apiPost/apiGet ciascuna)
+function apiChain(steps,onDone){
+  setBusy('Salvataggio…');
+  let p=Promise.resolve();
+  steps.forEach(fn=>{p=p.then(res=>{if(res&&res.error)throw new Error(res.error);return fn();});});
+  p.then(res=>{
+    if(res&&res.error)throw new Error(res.error);
+    return refreshData();
+  }).then(()=>{
+    clearBusy();
+    if(onDone)onDone();else render();
+  }).catch(err=>{
+    clearBusy();
+    alert('Errore: '+((err&&err.message)||err));
+  });
 }
 
 // ── HELPERS ──────────────────────────────────────────────
@@ -344,19 +325,12 @@ function statusCls(id,pk){
 }
 function myContacts(pk){return allContacts().filter(c=>S.asgn[c.id]===pk)}
 function segnalazioniRicevute(pk){
+  // Con il backend condiviso, ogni segnalazione verso pk arriva già come voce in S.signals
+  // (il server la genera sia da una valutazione in chiamata sia da una segnalazione rapida).
   return allContacts().filter(c=>{
     if(S.asgn[c.id]===pk)return false;
-    // segnalazioni dalla scheda di chiamata
-    // Check all partner results for ratings toward pk
-    const hasRating=PKEYS.filter(caller=>caller!==pk).some(caller=>{
-      const r=S.results[rkey(c.id,caller)];
-      return r&&r.ratings&&r.ratings[pk]&&r.ratings[pk]!=='nonora';
-    });
-    if(hasRating)return true;
-    // segnalazioni rapide dalla lista
     const sigs=S.signals[c.id];
-    if(sigs&&sigs.some(sg=>sg.to===pk))return true;
-    return false;
+    return sigs&&sigs.some(sg=>sg.to===pk);
   });
 }
 function getSignalInfo(cid,pk){
@@ -416,20 +390,23 @@ function mixedTileHtml(){
 }
 
 // ── RENDER ──────────────────────────────────────────────
+function loginAs(role,fromLogin){
+  S.user=role;S.callerView=fromLogin?'landing':'app';S.fromLogin=fromLogin;lsave('user',role);
+  S.callerFirstTime=!lload('seen_'+role,false);
+  S.msgsSeen=lload('msgsSeen_'+role,0);
+  reloadData();
+}
 function render(){
   const app=document.getElementById('app');
   if(!S.user){
     const hash=window.location.hash.replace('#','').toLowerCase();
     if(hash==='admin'){app.innerHTML=renderAdminPin();bindAdminPin();return}
     const role=HASHROLES[hash];
-    if(role){
-      S.user=role;S.fromLogin=false;S.callerView='app';lsave('user',role);
-      S.callerFirstTime=!lload('seen_'+role,false);
-      S.msgsSeen=lload('msgsSeen_'+role,0);
-      app.innerHTML=renderCaller();bindCaller();return;
-    }
+    if(role){loginAs(role,false);return;}
     app.innerHTML=renderLogin();bindLogin();return;
   }
+  if(S.dataStatus==='loading'){app.innerHTML=renderLoadingScreen();return}
+  if(S.dataStatus==='error'){app.innerHTML=renderErrorScreen(S.dataError);return}
   if(S.user==='admin'){
     if(S.adminView==='campaigns'){app.innerHTML=renderCampaigns();bindCampaigns();return}
     app.innerHTML=renderAdmin();bindAdmin();return;
@@ -478,8 +455,56 @@ function renderCampaigns(){
   return`<div>
   <div class="hdr"><div><div class="hdr-t">Pannello Admin</div><div class="hdr-s">Libreria campagne</div></div>
   <button class="out-btn" id="logout-btn">Esci</button></div>
-  <div class="body">${camps.length>0?cards:'<div class="empty">Nessuna campagna — creane una</div>'}${newCamp}
+  <div class="body">${partnerLinksCard()}${camps.length>0?cards:'<div class="empty">Nessuna campagna — creane una</div>'}${newCamp}
   ${S.modal&&S.modal.type==='newcampaign'?renderNewCampaignModal():''}</div></div>`;
+}
+const HASHNAME={v:'vaillant',h:'helty',s:'sunerg',eu:'eurotherm',tf:'thermofloc','in':'internorm',ita:'ita'};
+function partnerLinksCard(){
+  const base=location.href.split('#')[0];
+  const rows=[...PKEYS,'ita'].map(k=>{
+    const url=base+'#'+HASHNAME[k];
+    return '<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd)">'
+      +'<span class="chip '+PCLS[k]+'" style="flex-shrink:0">'+PNAMES[k]+'</span>'
+      +'<input readonly id="pl-url-'+k+'" value="'+esc(url)+'" onclick="this.select()" style="flex:1;min-width:0;font-size:11px;padding:6px 8px;border:1px solid var(--bd);border-radius:6px;background:var(--card2);color:var(--t2)">'
+      +'<button id="pl-btn-'+k+'" onclick="copyPartnerLink(\''+k+'\')" style="flex-shrink:0;padding:6px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--card);font-size:11px;cursor:pointer;white-space:nowrap">Copia</button>'
+      +'</div>';
+  }).join('');
+  return '<div class="card" id="partner-links-card" style="margin-bottom:14px">'
+    +'<div onclick="togglePartnerLinks()" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">'
+    +'<div style="font-size:13px;font-weight:500">&#128279; Link di accesso partner</div>'
+    +'<span id="pl-caret" style="font-size:11px;color:var(--t3)">&#9662;</span>'
+    +'</div>'
+    +'<div id="partner-links-body" style="display:none;margin-top:10px">'
+    +'<div style="font-size:11px;color:var(--t2);margin-bottom:6px">Invia a ciascun partner il link diretto alla propria area</div>'
+    +rows
+    +'</div></div>';
+}
+function togglePartnerLinks(){
+  const body=document.getElementById('partner-links-body');
+  const car=document.getElementById('pl-caret');
+  if(!body)return;
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  car.innerHTML=open?'&#9662;':'&#9652;';
+}
+function copyPartnerLink(k){
+  const inp=document.getElementById('pl-url-'+k);
+  const btn=document.getElementById('pl-btn-'+k);
+  if(!inp)return;
+  const doFallback=()=>{
+    inp.select();inp.setSelectionRange(0,99999);
+    try{document.execCommand('copy');}catch(e){}
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(inp.value).catch(doFallback);
+  } else {
+    doFallback();
+  }
+  if(btn){
+    const orig=btn.textContent;
+    btn.textContent='✓ Copiato';
+    setTimeout(()=>{btn.textContent=orig;},1500);
+  }
 }
 function renderNewCampaignModal(){
   return`<div class="overlay" id="overlay"><div class="sheet"><div class="sh-handle"></div>
@@ -533,36 +558,19 @@ function renderAdminPin(){
 
 function bindLogin(){
   document.querySelectorAll('.lbtn[data-role]').forEach(b=>b.onclick=()=>{
-    S.user=b.dataset.role;S.callerView='landing';S.fromLogin=true;lsave('user',S.user);
-    S.callerFirstTime=!lload('seen_'+S.user,false);
-    render();
+    loginAs(b.dataset.role,true);
   });
 }
 function enterCampaign(id){
   S.activeCampaign=id;
   lsave('activeCampaign',id);
-  // Reload campaign data
-  const rawResults=lload('results',{});
-  S.asgn=lload('asgn',{});
-  S.results={};
-  Object.keys(rawResults).forEach(k=>{
-    const r=rawResults[k];
-    if(k.includes('_')){S.results[k]=r;}
-    else if(r&&r.partner){S.results[k+'_'+r.partner]=r;}
-    else{S.results[k]=r;}
-  });
-  S.extra=lload('extra',[]);
-  S.msgs=lload('msgs',[]);
-  S.signals=lload('signals',{});
-  S.mixed=lload('mixed',{});
-  S.edits=lload('edits',{});
   S.adminView='contacts';
   S.adminFilter='unassigned';
-  render();
+  reloadData();
 }
 function bindCampaigns(){
   const lb=document.getElementById('logout-btn');
-  if(lb)lb.onclick=()=>{S.user=null;lsave('user',null);render()};
+  if(lb)lb.onclick=()=>{S.user=null;S.dataStatus='idle';lsave('user',null);render()};
   const nc=document.getElementById('new-camp-btn');
   if(nc)nc.onclick=()=>{S.modal={type:'newcampaign'};render()};
   const ov=document.getElementById('overlay');
@@ -584,24 +592,32 @@ function bindCampaigns(){
     const name=(document.getElementById('nc-campname')?.value||'').trim();
     if(!name){alert('Inserisci un nome per la campagna');return;}
     const id='camp_'+Date.now();
-    S.campaigns[id]={id,name,date:document.getElementById('nc-campdate')?.value||'',venue:document.getElementById('nc-campvenue')?.value||'',created:new Date().toISOString().split('T')[0]};
-    lsave('campaigns',S.campaigns);
+    const dateVal=document.getElementById('nc-campdate')?.value||'';
+    const venueVal=document.getElementById('nc-campvenue')?.value||'';
+    const createdVal=new Date().toISOString().split('T')[0];
     S.modal=null;
-    // If CSV selected, import it into new campaign
     const file=csvInp?.files[0];
-    if(file){
+    setBusy('Creazione campagna…');
+    apiPost('createCampaign',{pin:S.adminPin||ADMIN_PIN,id,nome:name,data:dateVal,venue:venueVal,creato:createdVal}).then(res=>{
+      if(res.error)throw new Error(res.error);
       S.activeCampaign=id;lsave('activeCampaign',id);
-      S.extra=[];S.asgn={};S.results={};S.msgs=[];S.signals={};S.edits={};
-      const reader=new FileReader();
-      reader.onload=e=>{
-        const res=importCSV(e.target.result);
-        S.adminView='contacts';render();
-        setTimeout(()=>alert(res.msg),100);
-      };
-      reader.readAsText(file,'UTF-8');
-    } else{
-      enterCampaign(id);
-    }
+      if(file){
+        return new Promise((resolve,reject)=>{
+          const reader=new FileReader();
+          reader.onload=e=>{importCSV(e.target.result).then(resolve).catch(reject);};
+          reader.onerror=reject;
+          reader.readAsText(file,'UTF-8');
+        });
+      }
+      return null;
+    }).then(importResult=>{
+      return doBootstrap().then(()=>{
+        clearBusy();
+        S.adminView='contacts';S.adminFilter='unassigned';
+        render();
+        if(importResult)setTimeout(()=>alert(importResult.msg),100);
+      });
+    }).catch(err=>{clearBusy();alert('Errore: '+((err&&err.message)||err));render();});
   };
 }
 function showAdminPin(){
@@ -612,7 +628,7 @@ function bindAdminPin(){
   const inp=document.getElementById('pin-input');
   const btn=document.getElementById('pin-confirm');
   if(!inp||!btn)return;
-  const go=()=>{if(inp.value===ADMIN_PIN){S.user='admin';lsave('user','admin');S.adminView='campaigns';render();}else{inp.style.borderColor='#D85A30';inp.value='';inp.placeholder='PIN errato — riprova';}};
+  const go=()=>{if(inp.value===ADMIN_PIN){S.user='admin';S.adminPin=inp.value;lsave('user','admin');S.adminView='campaigns';reloadData();}else{inp.style.borderColor='#D85A30';inp.value='';inp.placeholder='PIN errato — riprova';}};
   btn.onclick=go;
   inp.onkeydown=e=>{if(e.key==='Enter')go();};
   inp.focus();
@@ -684,6 +700,8 @@ function renderAdmin(){
 <div class="hdr">
   <div><div style="display:flex;align-items:center;gap:8px"><button onclick="S.adminView='campaigns';render()" style="border:none;background:none;color:var(--blue);font-size:13px;cursor:pointer;padding:0">←</button><div><div class="hdr-t">Pannello Admin</div><div class="hdr-s">${nassigned}/${total} assegnati · ${nunassigned} liberi</div></div>
   <div style="display:flex;gap:6px">
+    <button class="out-btn" id="import-btn">↑ CSV</button>
+    <input type="file" id="csv-input" accept=".csv" style="display:none">
     <button class="out-btn" id="add-btn" style="background:var(--blue);color:#fff;border-color:var(--blue)">+ Contatto</button>
     <button class="out-btn" id="logout-btn">Esci</button>
   </div>
@@ -799,7 +817,7 @@ function parseCSV(text){
 }
 function importCSV(text){
   const rows=parseCSV(text);
-  if(!rows.length)return{added:0,skipped:0,msg:'File vuoto'};
+  if(!rows.length)return Promise.resolve({added:0,skipped:0,msg:'File vuoto'});
   // Find header row
   const hdr=rows[0].map(h=>h.trim().toUpperCase());
   const ci=(name)=>hdr.indexOf(name);
@@ -809,7 +827,9 @@ function importCSV(text){
   const iNota=ci('NOTE'),iData=ci('DATA');
   // Existing emails for dedup
   const existingMails=new Set(allContacts().map(c=>(c.m||'').toLowerCase().trim()).filter(Boolean));
+  let maxId=allContacts().reduce((m,c)=>Math.max(m,c.id||0),0);
   let added=0,skipped=0;
+  const newRows=[];
   const dataRows=rows.slice(1).filter(r=>r.length>4&&r[iNome||2]?.trim());
   dataRows.forEach(r=>{
     const get=(i)=>i>=0&&i<r.length?r[i].trim():'';
@@ -832,27 +852,27 @@ function importCSV(text){
     }
     const tel=get(iTel).replace(/^0039\s?/,'').replace(/\s/g,'');
     const si=(i)=>get(i).toLowerCase()==='sì'||get(i).toLowerCase()==='si'||get(i)==='1'?1:0;
-    S.extra.push({
-      id:Date.now()+added,
-      d,
-      n:get(iNome>=0?iNome:2),
-      c:get(iCogn>=0?iCogn:3),
-      az:get(iAz>=0?iAz:4),
-      r:get(iRuolo>=0?iRuolo:5),
-      m:get(iMail>=0?iMail:6),
-      t:tel,
-      i:{v:si(iV),h:si(iH),s:si(iS),eu:si(iEu),tf:si(iTf),in:si(iIn)},
-      nota:get(iNota>=0?iNota:14),
-      manual:true
+    maxId++;
+    newRows.push({
+      id:maxId, giorno:d,
+      nome:get(iNome>=0?iNome:2), cognome:get(iCogn>=0?iCogn:3),
+      azienda:get(iAz>=0?iAz:4), ruolo:get(iRuolo>=0?iRuolo:5),
+      email:get(iMail>=0?iMail:6), telefono:tel,
+      interesse_vaillant:si(iV), interesse_helty:si(iH), interesse_sunerg:si(iS),
+      interesse_eurotherm:si(iEu), interesse_thermofloc:si(iTf), interesse_internorm:si(iIn),
+      nota:get(iNota>=0?iNota:14)
     });
     if(mail)existingMails.add(mail);
     added++;
   });
-  saveExtra();
-  return{added,skipped,msg:added+' contatti importati'+(skipped?' · '+skipped+' già presenti (skip)':'')};
+  if(!newRows.length)return Promise.resolve({added:0,skipped,msg:'Nessun contatto nuovo da importare'+(skipped?' · '+skipped+' già presenti (skip)':'')});
+  return apiPost('importContacts',{pin:S.adminPin||ADMIN_PIN,rows:newRows}).then(res=>{
+    if(res.error)throw new Error(res.error);
+    return{added,skipped,msg:added+' contatti importati'+(skipped?' · '+skipped+' già presenti (skip)':'')};
+  });
 }
 function bindAdmin(){
-  document.getElementById('logout-btn').onclick=()=>{S.user=null;lsave('user',null);render()};
+  document.getElementById('logout-btn').onclick=()=>{S.user=null;S.dataStatus='idle';lsave('user',null);render()};
   const addBtn=document.getElementById('add-btn');
   if(addBtn)addBtn.onclick=()=>{S.modal={type:'addcontact'};render()};
   const importBtn=document.getElementById('import-btn');
@@ -864,10 +884,13 @@ function bindAdmin(){
       if(!file)return;
       const reader=new FileReader();
       reader.onload=e=>{
-        const result=importCSV(e.target.result);
-        alert(result.msg);
-        csvInput.value='';
-        render();
+        setBusy('Importazione…');
+        importCSV(e.target.result).then(result=>{
+          return doBootstrap().then(()=>{
+            clearBusy();csvInput.value='';render();
+            setTimeout(()=>alert(result.msg),100);
+          });
+        }).catch(err=>{clearBusy();csvInput.value='';alert('Errore import: '+((err&&err.message)||err));});
       };
       reader.readAsText(file,'UTF-8');
     };
@@ -877,14 +900,14 @@ function bindAdmin(){
   const singlesBtn=document.getElementById('singles-btn');
   if(singlesBtn)singlesBtn.onclick=()=>{
     const singles=unassigned().filter(c=>numInt(c)===1);
-    singles.forEach(c=>{S.asgn[c.id]=intList(c)[0]});
-    saveAsgn();render();
+    const steps=singles.map(c=>()=>apiPost('assign',{pin:S.adminPin||ADMIN_PIN,contactId:c.id,partner:intList(c)[0]}));
+    apiChain(steps);
   };
   const randBtn=document.getElementById('rand-btn');
   if(randBtn)randBtn.onclick=()=>{
     const un=unassigned();
-    un.forEach((c,i)=>{S.asgn[c.id]=PKEYS[i%PKEYS.length]});
-    saveAsgn();render();
+    const steps=un.map((c,i)=>()=>apiPost('assign',{pin:S.adminPin||ADMIN_PIN,contactId:c.id,partner:PKEYS[i%PKEYS.length]}));
+    apiChain(steps);
   };
   bindModalAdmin();
 }
@@ -901,22 +924,24 @@ function bindModalAdmin(){
   if(ncs)ncs.onclick=()=>{
     const nome=(document.getElementById('nc-nome').value||'').trim();
     if(!nome){alert('Inserisci almeno il nome');return}
-    const ints={};
-    PKEYS.forEach(k=>{ints[k]=document.getElementById('int-'+k)?.checked?1:0});
-    const newId=Date.now();
+    const maxId=allContacts().reduce((m,c)=>Math.max(m,c.id||0),0);
+    const newId=maxId+1;
     const ncDate=document.getElementById('nc-data')?.value||'';
     const dObj=ncDate?new Date(ncDate):new Date();
     const mesi=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
     const dStr=dObj.getDate()+' '+mesi[dObj.getMonth()];
-    S.extra.push({id:newId,n:nome,c:(document.getElementById('nc-cogn').value||'').trim(),az:(document.getElementById('nc-az').value||'').trim(),r:document.getElementById('nc-ruolo').value||'',m:(document.getElementById('nc-mail').value||'').trim(),t:(document.getElementById('nc-tel').value||'').trim().replace(/^0039\s?/,''),i:ints,nota:(document.getElementById('nc-nota').value||'').trim(),d:dStr,manual:true});
-    saveExtra();S.modal=null;render();
+    const contact={id:newId,giorno:dStr,nome,cognome:(document.getElementById('nc-cogn').value||'').trim(),azienda:(document.getElementById('nc-az').value||'').trim(),ruolo:document.getElementById('nc-ruolo').value||'',email:(document.getElementById('nc-mail').value||'').trim(),telefono:(document.getElementById('nc-tel').value||'').trim().replace(/^0039\s?/,''),nota:(document.getElementById('nc-nota').value||'').trim()};
+    PKEYS.forEach(k=>{contact['interesse_'+HASHNAME[k]]=document.getElementById('int-'+k)?.checked?1:0});
+    apiChain([()=>apiPost('addContact',{pin:S.adminPin||ADMIN_PIN,contact})],()=>{S.modal=null;render();});
   };
   if(ac)ac.onclick=()=>{
     const sel=document.getElementById('assign-select').value;
-    if(sel){S.asgn[S.modal.cid]=sel;saveAsgn()}
-    S.modal=null;render();
+    if(!sel){S.modal=null;render();return;}
+    apiChain([()=>apiPost('assign',{pin:S.adminPin||ADMIN_PIN,contactId:S.modal.cid,partner:sel})],()=>{S.modal=null;render();});
   };
-  if(ar)ar.onclick=()=>{delete S.asgn[S.modal.cid];saveAsgn();S.modal=null;render()};
+  if(ar)ar.onclick=()=>{
+    apiChain([()=>apiPost('assign',{pin:S.adminPin||ADMIN_PIN,contactId:S.modal.cid,partner:''})],()=>{S.modal=null;render();});
+  };
 }
 
 // ── CALLER ──────────────────────────────────────────────
@@ -1006,7 +1031,7 @@ function renderCallerLandingITA(){
     <div style="font-size:10px;color:var(--t3);text-align:center;margin-top:6px">Accesso esclusivo · solo per Monica</div>
   </div></div>`;
 }
-function backToLogin(){S.user=null;S.callerView='landing';S.fromLogin=false;lsave('user',null);render();}
+function backToLogin(){S.user=null;S.dataStatus='idle';S.callerView='landing';S.fromLogin=false;lsave('user',null);render();}
 function bindCallerLanding(pk){
   const btn=document.getElementById('enter-app-btn');
   if(btn)btn.onclick=()=>{S.callerView='app';render();};
@@ -1180,18 +1205,18 @@ ${segRows?`<div class="card"><div class="clabel">SEGNALAZIONI AI COLLEGHI</div>$
 </div>`}
 
 function renderTeam(currentPk){
+  // Solo numeri aggregati per partner (mai le schede altrui) — arrivano dal backend in S.teamStats
+  const byKey={};
+  (S.teamStats||[]).forEach(s=>{byKey[s.partner]=s});
   const rows=PKEYS.map(pk=>{
-    const my=myContacts(pk);
-    const tot=my.length;
-    const called=my.filter(c=>statusOf(c.id,pk)!=='pending').length;
-    const pos=my.filter(c=>statusOf(c.id,pk)==='closed'||statusOf(c.id,pk)==='concrete').length;
-    const pct=tot?Math.round(called/tot*100):0;
+    const st=byKey[pk]||{total:0,called:0,positive:0};
+    const pct=st.total?Math.round(st.called/st.total*100):0;
     const isMe=pk===currentPk;
     return`<div class="tr">
   <div class="tr-name" style="${isMe?'color:var(--blue);font-weight:600':''}">${PNAMES[pk]}${isMe?' ★':''}</div>
-  <div class="tr-ratio" style="color:var(--t2)">${called} di ${tot}</div>
+  <div class="tr-ratio" style="color:var(--t2)">${st.called} di ${st.total}</div>
   <div class="tr-bar"><div class="tr-fill" style="width:${pct}%;background:${PBAR[pk]}"></div></div>
-  <div class="tr-pos">${pos} ✓</div>
+  <div class="tr-pos">${st.positive} ✓</div>
 </div>`}).join('');
   return`<div class="card"><div class="clabel">PANORAMICA B-CAD · solo lettura</div>${rows}</div>
 <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:4px">Barra = % chiamati · ✓ = positivi + concreti</div>`}
@@ -1250,15 +1275,7 @@ function renderCronEntry(e,isLast){
     +'</div></div>';
 }
 function getResult(id,pk){return S.results[rkey(id,pk)]||null;}
-function getField(c,field){
-  const ed=S.edits[c.id];
-  return(ed&&ed[field]!==undefined)?ed[field]:c[field];
-}
-function saveEdit(id,field,value){
-  if(!S.edits[id])S.edits[id]={};
-  S.edits[id][field]=value;
-  saveEdits();
-}
+function getField(c,field){return c[field]}
 function profilazioneRecap(pk){
   const rL={caldo:'✓ Confermato',possibile:'~ Possibile',nonora:'— Non ora'};
   const rC={caldo:'#993C1D',possibile:'#854F0B',nonora:'#9a9890'};
@@ -1548,8 +1565,9 @@ function startEdit(id,field){
 function confirmEdit(id,field){
   const inp=document.getElementById('ei-'+id);
   if(!inp)return;
-  saveEdit(id,field,inp.value.trim());
-  render();
+  const value=inp.value.trim();
+  const apiField=field==='t'?'telefono':'email';
+  apiChain([()=>apiPost('editContact',{partner:S.user,contactId:id,field:apiField,value})]);
 }
 function cancelEdit(){render();}
 function closeSheet(){S.modal=null;S.activeId=null;S.callRatings={};S.callConcrete=false;S.callDoc='';S.callNote='';S.callEsito='';S.c2cAsked='';S.callC2CRequired=true;render();}
@@ -1558,72 +1576,52 @@ function saveCallTriage(){
   const partners=PKEYS.filter(k=>{const el=document.getElementById('mix-'+k);return el&&el.checked;});
   if(!partners.length){alert('Seleziona almeno un partner');return}
   const dateStr=new Date().toLocaleDateString('it-IT');
+  const c=allContacts().find(x=>x.id===id);
   if(partners.length===1){
     const newPartner=partners[0];
-    S.results[rkey(id,'ita')]={partner:'ita',ratings:{...S.callRatings},concrete:S.callConcrete,doc:S.callDoc,note:S.callNote,callDate:dateStr,status:'called',reassignedTo:newPartner};
-    S.asgn[id]=newPartner;
-    saveAsgn();saveResults();closeSheet();
+    const steps=[
+      ()=>apiPost('saveCall',{partner:'ita',contactId:id,ratings:{...S.callRatings},concrete:S.callConcrete,doc:S.callDoc,note:S.callNote,callDate:dateStr,reassignedTo:newPartner}),
+      ()=>apiPost('assign',{pin:S.adminPin||ADMIN_PIN,contactId:id,partner:newPartner})
+    ];
+    apiChain(steps,()=>{closeSheet();});
     return;
   }
   const referente=document.getElementById('mix-ita-referente')?document.getElementById('mix-ita-referente').checked:false;
-  S.results[rkey(id,'ita')]={partner:'ita',ratings:{...S.callRatings},concrete:S.callConcrete,doc:S.callDoc,note:S.callNote,callDate:dateStr,status:'called',mixed:true,mixedPartners:partners,mixedReferente:referente};
-  saveResults();
-  S.mixed[id]={partners:partners,referente:referente,note:S.callNote,date:dateStr};
-  saveMixed();
-  if(!S.signals[id])S.signals[id]=[];
-  partners.forEach(k=>{
-    S.signals[id]=S.signals[id].filter(sg=>sg.to!==k);
-    S.signals[id].push({from:'ita',to:k,note:S.callNote,date:dateStr,consent:true,livello:S.callRatings[k]||'possibile'});
-  });
-  saveSignals();
-  S.asgn[id]='ita';
-  saveAsgn();
-  const c=allContacts().find(x=>x.id===id);
-  if(c){
-    const det=partners.map(k=>PNAMES[k]).join(', ');
-    const txt=c.n+' '+c.c+' — progetto misto: coinvolti '+det+(referente?' · ITA referente unico':'');
-    S.msgs.push({sender:'ITA',text:txt,when:new Date().getHours()+':'+(String(new Date().getMinutes()).padStart(2,'0')),auto:true});
-    saveMsgs();
-  }
-  closeSheet();
+  const det=partners.map(k=>PNAMES[k]).join(', ');
+  const txt=(c?c.n+' '+c.c:'Contatto')+' — progetto misto: coinvolti '+det+(referente?' · ITA referente unico':'');
+  const steps=[
+    ()=>apiPost('saveCall',{partner:'ita',contactId:id,ratings:{...S.callRatings},concrete:S.callConcrete,doc:S.callDoc,note:S.callNote,callDate:dateStr,mixed:true,mixedPartners:partners,mixedReferente:referente}),
+    ()=>apiPost('saveMixed',{partner:'ita',contactId:id,partners:partners,referente:referente,note:S.callNote,date:dateStr}),
+    ()=>apiPost('assign',{pin:S.adminPin||ADMIN_PIN,contactId:id,partner:'ita'}),
+    ()=>apiPost('sendMessage',{autore:'ITA',testo:txt,auto:true})
+  ];
+  apiChain(steps,()=>{closeSheet();});
 }
 function saveCall(pk){
   const id=S.activeId;
   if(!S.callEsito){alert('Seleziona l\'esito della chiamata prima di chiudere');return}
   const callbackDate=S.callEsito==='richiama'?(document.getElementById('callback-date')?.value||''):'';
   const c=allContacts().find(x=>x.id===id);
-  S.results[rkey(id,pk)]={partner:pk,ratings:{...S.callRatings},concrete:S.callConcrete,doc:S.callDoc,note:S.callNote,esito:S.callEsito,callbackDate,callDate:new Date().toLocaleDateString('it-IT'),status:'called'};
-  saveResults();
-  // C2C: crea segnalazioni con consenso
   const c2cConsent=document.getElementById('c2c-consent')?.checked!==false;
-  if(S.callEsito==='parlato'&&c&&c2cConsent){
-    const c2cTargets=PKEYS.filter(k=>k!==pk&&S.callRatings[k]&&S.callRatings[k]!=='nonora');
-    if(c2cTargets.length){
-      if(!S.signals[id])S.signals[id]=[];
-      c2cTargets.forEach(k=>{
-        S.signals[id]=S.signals[id].filter(sg=>sg.to!==k);
-        S.signals[id].push({from:pk,to:k,note:S.callNote,date:new Date().toLocaleDateString('it-IT'),consent:true,livello:S.callRatings[k]});
-      });
-      saveSignals();
-    }
-  }
-  // Aggiorna bacheca automaticamente se ci sono segnalazioni
+  const callDateStr=new Date().toLocaleDateString('it-IT');
+  const steps=[
+    ()=>apiPost('saveCall',{partner:pk,contactId:id,ratings:{...S.callRatings},concrete:S.callConcrete,doc:S.callDoc,note:S.callNote,esito:S.callEsito,callbackDate,callDate:callDateStr,consent:c2cConsent})
+  ];
+  // Il server non genera messaggi in bacheca da solo — li mandiamo qui, come faceva prima l'app
   if(S.callEsito==='parlato'&&c){
     const rL={caldo:'Confermato',possibile:'Possibile'};
     const notified=PKEYS.filter(k=>k!==pk&&S.callRatings[k]&&S.callRatings[k]!=='nonora');
-    if(notified.length){
+    if(notified.length&&c2cConsent){
       const det=notified.map(k=>PNAMES[k]+' ('+rL[S.callRatings[k]]+')').join(', ');
-      const nome=c.n+' '+c.c;
-      const txt=nome+' segnalato a '+det+(S.callNote?' · "'+S.callNote+'"':'');
-      S.msgs.push({sender:PNAMES[pk],text:txt,when:new Date().getHours()+':'+(String(new Date().getMinutes()).padStart(2,'0')),auto:true});
-      saveMsgs();
+      const txt=c.n+' '+c.c+' segnalato a '+det+(S.callNote?' · "'+S.callNote+'"':'');
+      steps.push(()=>apiPost('sendMessage',{autore:PNAMES[pk],testo:txt,auto:true}));
     }
     if(S.callConcrete){
-      S.msgs.push({sender:PNAMES[pk],text:c.n+' '+c.c+' — cliente concreto ★ Progetto reale in corso',when:new Date().getHours()+':'+(String(new Date().getMinutes()).padStart(2,'0')),auto:true});
-      saveMsgs();
+      const txt2=c.n+' '+c.c+' — cliente concreto ★ Progetto reale in corso';
+      steps.push(()=>apiPost('sendMessage',{autore:PNAMES[pk],testo:txt2,auto:true}));
     }
   }
-  closeSheet();
+  apiChain(steps,()=>{closeSheet();});
 }
 
 function filterSearch(val){
@@ -1662,16 +1660,13 @@ function bindSignalModal(pk){
     if(!targets.length){alert('Seleziona almeno un partner');return;}
     const cid=S.signalModal;
     const c=allContacts().find(x=>x.id===cid);
-    if(!S.signals[cid])S.signals[cid]=[];
+    const dateStr=new Date().toLocaleDateString('it-IT');
+    const steps=targets.map(k=>()=>apiPost('addSignal',{contactId:cid,from:pk,to:k,note,date:dateStr,livello:'possibile'}));
     targets.forEach(k=>{
-      S.signals[cid]=S.signals[cid].filter(s=>s.to!==k);
-      S.signals[cid].push({from:pk,to:k,note,date:new Date().toLocaleDateString('it-IT')});
-      // Auto bacheca
-      const nome=c.n+' '+c.c;
-      S.msgs.push({sender:PNAMES[pk],text:nome+' segnalato a '+PNAMES[k]+(note?' · "'+note+'"':''),when:new Date().getHours()+':'+(String(new Date().getMinutes()).padStart(2,'0')),auto:true});
+      const nome=c?c.n+' '+c.c:'Contatto';
+      steps.push(()=>apiPost('sendMessage',{autore:PNAMES[pk],testo:nome+' segnalato a '+PNAMES[k]+(note?' · "'+note+'"':''),auto:true}));
     });
-    saveSignals();saveMsgs();
-    S.signalModal=null;render();
+    apiChain(steps,()=>{S.signalModal=null;render();});
   };
 }
 function openBacheca(){
@@ -1683,7 +1678,7 @@ function openBacheca(){
 function bindCaller(){
   if(document.getElementById('ita-assign-btn'))updateItaAssignUI();
   const lb=document.getElementById('logout-btn');
-  if(lb)lb.onclick=()=>{S.user=null;lsave('user',null);if(window.location.hash)history.replaceState(null,'',window.location.pathname+window.location.search);render()};
+  if(lb)lb.onclick=()=>{S.user=null;S.dataStatus='idle';lsave('user',null);if(window.location.hash)history.replaceState(null,'',window.location.pathname+window.location.search);render()};
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
     S.callerTab=t.dataset.tab;
     if(t.dataset.tab==='bacheca'){S.msgsSeen=S.msgs.length;lsave('msgsSeen_'+S.user,S.msgsSeen);}
@@ -1706,14 +1701,16 @@ function bindCaller(){
     const inp=document.getElementById('msg-in');
     const txt=(inp?.value||'').trim();
     if(!txt)return;
-    S.msgs.push({sender:PNAMES[S.user],text:txt,when:now()});
-    saveMsgs();inp.value='';render();
-    setTimeout(()=>document.querySelector('.bacheca-end')?.scrollIntoView(),50);
+    apiChain([()=>apiPost('sendMessage',{autore:PNAMES[S.user]||S.user,testo:txt,auto:false})],()=>{
+      inp.value='';render();
+      setTimeout(()=>document.querySelector('.bacheca-end')?.scrollIntoView(),50);
+    });
   };
 }
 
 // ── BOOT ──────────────────────────────────────────────
-loadState();render();
+loadState();
+if(S.user){reloadData();}else{render();}
 </script>
 </body>
 </html>
