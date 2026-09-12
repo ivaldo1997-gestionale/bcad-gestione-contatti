@@ -1723,6 +1723,19 @@ function bindCaller(){
 
 // ── BOOT ──────────────────────────────────────────────
 loadState();
+// Un link con hash (#admin, #vaillant, ecc.) deve sempre portare a QUELLA area,
+// anche se il browser ricorda un'identità diversa da una sessione precedente —
+// altrimenti aprire il link di un partner mentre il dispositivo "ricorda" un altro
+// ruolo (es. era rimasto loggato come Thermofloc) ripropone quel ruolo vecchio
+// invece di rispettare il link appena aperto.
+(function(){
+  const bootHash=window.location.hash.replace('#','').toLowerCase();
+  if(bootHash==='admin'){
+    if(S.user!=='admin'){S.user=null;lsave('user',null);}
+  }else if(HASHROLES[bootHash]){
+    if(S.user!==HASHROLES[bootHash]){S.user=null;lsave('user',null);}
+  }
+})();
 if(S.user){reloadData();}else{render();}
 </script>
 </body>
