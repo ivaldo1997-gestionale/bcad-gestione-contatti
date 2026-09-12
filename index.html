@@ -391,7 +391,7 @@ function mixedTileHtml(){
 
 // ── RENDER ──────────────────────────────────────────────
 function loginAs(role,fromLogin){
-  S.user=role;S.callerView=fromLogin?'landing':'app';S.fromLogin=fromLogin;lsave('user',role);
+  S.user=role;S.callerView='landing';S.fromLogin=fromLogin;lsave('user',role);
   S.callerFirstTime=!lload('seen_'+role,false);
   S.msgsSeen=lload('msgsSeen_'+role,0);
   reloadData();
