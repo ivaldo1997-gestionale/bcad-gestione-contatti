@@ -1678,10 +1678,7 @@ function openBacheca(){
 function bindCaller(){
   if(document.getElementById('ita-assign-btn'))updateItaAssignUI();
   const lb=document.getElementById('logout-btn');
-  if(lb)lb.onclick=()=>{
-    if(!S.fromLogin){S.callerView='landing';render();return;}
-    S.user=null;S.dataStatus='idle';lsave('user',null);if(window.location.hash)history.replaceState(null,'',window.location.pathname+window.location.search);render();
-  };
+  if(lb)lb.onclick=()=>{S.user=null;S.dataStatus='idle';lsave('user',null);if(window.location.hash)history.replaceState(null,'',window.location.pathname+window.location.search);render()};
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
     S.callerTab=t.dataset.tab;
     if(t.dataset.tab==='bacheca'){S.msgsSeen=S.msgs.length;lsave('msgsSeen_'+S.user,S.msgsSeen);}
